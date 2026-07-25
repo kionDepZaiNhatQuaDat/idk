@@ -9,14 +9,14 @@ public class SaveController : MonoBehaviour
     void Start()
     {
         saveLocation = Path.Combine(Application.persistentDataPath, "saveData.json");
-
+        LoadGame();
     }
     public void SaveGame()
     {
         SaveData saveData = new SaveData
         {
             playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position,
-            mapBoundary = FindObjectOfType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name
+            mapBoundary = FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name
         };
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
@@ -27,6 +27,10 @@ public class SaveController : MonoBehaviour
         if (File.Exists(saveLocation))
         {
             SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
+            GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
+            CinemachineConfiner2D confiner = FindAnyObjectByType<CinemachineConfiner2D>();
+            confiner.BoundingShape2D = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
+            confiner.InvalidateBoundingShapeCache();
         }
         else
         {
