@@ -8,9 +8,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9042664386919185148, guid: 42b08a20cd02348bbb6e125dee70db13, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8549692267302808760, guid: c52d57aafd2de4d368188347b8324d8f, type: 3}
     - target: {fileID: 2038458746264933263, guid: 42b08a20cd02348bbb6e125dee70db13, type: 3}
       propertyPath: m_Name
-      value: AxeItem Variant
+      value: AxeItem
       objectReference: {fileID: 0}
     - target: {fileID: 5351217888386236800, guid: 42b08a20cd02348bbb6e125dee70db13, type: 3}
       propertyPath: m_Pivot.x
