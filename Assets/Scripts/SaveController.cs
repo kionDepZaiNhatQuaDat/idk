@@ -7,10 +7,13 @@ public class SaveController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private string saveLocation;
     private InventoryController inventoryController;
+    private HotBarController hotbarController;
+
     void Start()
     {
         saveLocation = Path.Combine(Application.persistentDataPath, "saveData.json");
         inventoryController = FindAnyObjectByType<InventoryController>();
+        hotbarController = FindAnyObjectByType<HotBarController>();
         LoadGame();
     }
     public void SaveGame()
@@ -19,7 +22,8 @@ public class SaveController : MonoBehaviour
         {
             playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position,
             mapBoundary = FindAnyObjectByType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name,
-            inventorySaveData = inventoryController.GetInventoryItems()
+            inventorySaveData = inventoryController.GetInventoryItems(),
+            hotbarSaveData = hotbarController.GetHotbarItems()
         };
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
@@ -35,6 +39,7 @@ public class SaveController : MonoBehaviour
             confiner.BoundingShape2D = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
             confiner.InvalidateBoundingShapeCache();
             inventoryController.SetInventoryItem(saveData.inventorySaveData);
+            hotbarController.SetHotbarItem(saveData.hotbarSaveData);
         }
         else
         {
